@@ -11,6 +11,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSystem;
 
@@ -24,21 +28,24 @@ public class AimToBall extends CommandBase {
 
     PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
-    final double ANGULAR_P = 0.1;
+    final double ANGULAR_P = 0.5;//SmartDashboard.getNumber("Angular Pos", 0.1);
 
-    final double ANGULAR_D = -.1;
+    final double ANGULAR_D = 0.0;
 
     PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
     private NetworkTable table;
+
+    GenericHID controller;
 
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public AimToBall(DriveSystem subsystem) {
+    public AimToBall(DriveSystem subsystem, GenericHID driveController) {
         m_subsystem = subsystem;
         m_finished = true;
+        controller = driveController;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
@@ -61,12 +68,13 @@ public class AimToBall extends CommandBase {
             Double best_target_x = (Double) xEntry.getNumber(0);
             System.out.println(best_target_x);
             double error = best_target_x - width / 2.0;
-            if (Math.abs(error) > 50) {
+            if (Math.abs(error) > 10) {
                 System.out.println(error);
                 // error = error / 160.0;
                 double turnSpeed = turnController.calculate(error, 0);
-                System.out.println(turnSpeed);
-                m_subsystem.drive(0.0, turnSpeed * .04);
+                turnSpeed = turnSpeed*(1.0/160.0)*0.5;
+                SmartDashboard.putNumber("turnSpeed", turnSpeed);
+                m_subsystem.drive(controller.getRawAxis(1) >0.1 || controller.getRawAxis(1) < -0.1 ? -controller.getRawAxis(1):0.0, turnSpeed);
             }
 
         }
