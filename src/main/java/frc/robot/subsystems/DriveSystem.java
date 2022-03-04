@@ -4,11 +4,14 @@
 
 package frc.robot.subsystems;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DriveSystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
@@ -22,9 +25,15 @@ public class DriveSystem extends SubsystemBase {
   MotorControllerGroup rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
   MotorControllerGroup leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
 
-  
+  //Vision
+  private PhotonCamera cam = new PhotonCamera(Constants.Vision.kCamName);
+  public PhotonCamera getCamera(){
+    return cam;
+  }
 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(leftMotors, rightMotors);
+
+
 
   public DriveSystem() {
     leftMotors.setInverted(true);

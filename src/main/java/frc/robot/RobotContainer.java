@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimToBall;
+import frc.robot.commands.AimToTarget;
 import frc.robot.subsystems.DriveSystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -54,9 +55,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    left_bumper = new JoystickButton(driveController, XboxController.Button.kY.value);
+    left_bumper = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
 
-    left_bumper.whileHeld(new AimToBall(robotDrive,driveController));
+    left_bumper.whileHeld(new AimToTarget(robotDrive));
 
   }
 
