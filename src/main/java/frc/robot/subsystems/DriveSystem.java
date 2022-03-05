@@ -4,9 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import org.photonvision.PhotonCamera;
 
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +29,8 @@ public class DriveSystem extends SubsystemBase {
   MotorControllerGroup rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
   MotorControllerGroup leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
 
+  Gyro gyro = new AHRS(SerialPort.Port.kMXP); /* Alternatives:  SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
+
   //Vision
   private PhotonCamera cam = new PhotonCamera(Constants.Vision.kCamName);
   public PhotonCamera getCamera(){
@@ -37,6 +43,10 @@ public class DriveSystem extends SubsystemBase {
 
   public DriveSystem() {
     leftMotors.setInverted(true);
+  }
+
+  public double getHeading() {
+    return gyro.getAngle();
   }
 
   @Override

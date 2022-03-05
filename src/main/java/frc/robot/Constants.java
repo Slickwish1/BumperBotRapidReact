@@ -50,4 +50,10 @@ public final class Constants {
             public static final Rotation2d rotation = new Rotation2d(0.0);
             public static final Transform2d kCameraToRobot = new Transform2d(translation, rotation);
     }
+
+    public static final double kTurnRateToleranceDegPerS = 10;
+    public static final double kTurnToleranceDeg = 5;
+    public static final double kTurnP = 0.1;
+    public static final double kTurnI = 0;
+    public static final double kTurnD = 0;
 }
