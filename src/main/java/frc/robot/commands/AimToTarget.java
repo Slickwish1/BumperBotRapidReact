@@ -20,6 +20,7 @@ public class AimToTarget extends CommandBase{
     final double ANGULAR_P = 0.5;
     final double ANGULAR_D = 0;
     PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
+    double targetRange = Constants.Vision.kFarTgtXPos;
 
     /**
      * Creates a new ExampleCommand.
@@ -29,6 +30,14 @@ public class AimToTarget extends CommandBase{
     public AimToTarget(DriveSystem subsystem) {
         m_subsystem = subsystem;
         m_finished = true;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
+    }
+
+    public AimToTarget(DriveSystem subsystem, double i) {
+        m_subsystem = subsystem;
+        m_finished = true;
+        targetRange =i;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
@@ -60,7 +69,7 @@ public class AimToTarget extends CommandBase{
  
              // -1.0 required to ensure positive PID controller effort _increases_ range
  
-             double forwardSpeed = forwardController.calculate(range, Constants.Vision.kFarTgtXPos);
+             double forwardSpeed = forwardController.calculate(range, targetRange);
              double errorForward = Math.abs(range) - Math.abs(Constants.Vision.kFarTgtXPos);
              // Also calculate angular power
  

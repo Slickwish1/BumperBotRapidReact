@@ -28,7 +28,7 @@ public class AimToBall extends CommandBase {
 
     PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
-    final double ANGULAR_P = 0.5;//SmartDashboard.getNumber("Angular Pos", 0.1);
+    final double ANGULAR_P = 0.5;// SmartDashboard.getNumber("Angular Pos", 0.1);
 
     final double ANGULAR_D = 0.0;
 
@@ -46,6 +46,14 @@ public class AimToBall extends CommandBase {
         m_subsystem = subsystem;
         m_finished = true;
         controller = driveController;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
+    }
+
+    public AimToBall(DriveSystem subsystem) {
+        m_subsystem = subsystem;
+        m_finished = true;
+        controller = null;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
@@ -72,9 +80,16 @@ public class AimToBall extends CommandBase {
                 System.out.println(error);
                 // error = error / 160.0;
                 double turnSpeed = turnController.calculate(error, 0);
-                turnSpeed = turnSpeed*(1.0/160.0)*0.5;
+                turnSpeed = turnSpeed * (1.0 / 160.0) * 0.5;
                 SmartDashboard.putNumber("turnSpeed", turnSpeed);
-                m_subsystem.drive(controller.getRawAxis(1) >0.1 || controller.getRawAxis(1) < -0.1 ? -controller.getRawAxis(1):0.0, turnSpeed);
+                if (controller != null) {
+                    m_subsystem.drive(controller.getRawAxis(1) > 0.1 || controller.getRawAxis(1) < -0.1
+                            ? -controller.getRawAxis(1)
+                            : 0.0, turnSpeed);
+
+                } else {
+                    m_subsystem.drive(0.0, turnSpeed);
+                }
             }
 
         }
