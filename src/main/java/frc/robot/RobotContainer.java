@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.tools.Diagnostic;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimToBall;
 import frc.robot.commands.AimToTarget;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.DriveSystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -26,6 +29,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSystem robotDrive = new DriveSystem();
   private JoystickButton left_bumper;
+  private JoystickButton right_bumper;
+  private JoystickButton a_button;
+
   private GenericHID driveController =  new XboxController(0) ;
 
 
@@ -56,9 +62,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     left_bumper = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
+    right_bumper = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
+    a_button = new JoystickButton(driveController, XboxController.Button.kA.value);
+
 
     left_bumper.whileHeld(new AimToTarget(robotDrive));
-
+    right_bumper.whileHeld(new AimToBall(robotDrive,driveController));
+    a_button.whenPressed(new TurnToAngle(45, robotDrive));
   }
 
   /**

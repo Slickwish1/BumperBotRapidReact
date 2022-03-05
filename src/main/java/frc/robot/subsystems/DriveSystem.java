@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -39,7 +40,8 @@ public class DriveSystem extends SubsystemBase {
 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(leftMotors, rightMotors);
 
-
+  public void init(){
+  }
 
   public DriveSystem() {
     leftMotors.setInverted(true);
@@ -52,6 +54,7 @@ public class DriveSystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
   }
 
   @Override
