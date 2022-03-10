@@ -60,8 +60,14 @@ public class AimToBall extends CommandBase {
 
     @Override
     public void initialize() {
+        System.out.println("Aiming to Ball");
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         table = inst.getTable("ML");
+    }
+
+    @Override
+    public boolean isFinished(){
+        return m_finished;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -76,6 +82,7 @@ public class AimToBall extends CommandBase {
             Double best_target_x = (Double) xEntry.getNumber(0);
             System.out.println(best_target_x);
             double error = best_target_x - width / 2.0;
+            m_finished = error < 10;
             if (Math.abs(error) > 10) {
                 System.out.println(error);
                 // error = error / 160.0;

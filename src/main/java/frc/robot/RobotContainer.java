@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimToBall;
 import frc.robot.commands.AimToTarget;
+import frc.robot.commands.AutoCommand;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.DriveSystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,6 +39,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
+    robotDrive.resetGyro();
 
     robotDrive.setDefaultCommand( 
       
@@ -68,7 +70,7 @@ public class RobotContainer {
 
     left_bumper.whileHeld(new AimToTarget(robotDrive));
     right_bumper.whileHeld(new AimToBall(robotDrive,driveController));
-    a_button.whenPressed(new TurnToAngle(45, robotDrive));
+    a_button.whenPressed(new AutoCommand(robotDrive));
   }
 
   /**

@@ -40,9 +40,6 @@ public class DriveSystem extends SubsystemBase {
 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(leftMotors, rightMotors);
 
-  public void init(){
-  }
-
   public DriveSystem() {
     leftMotors.setInverted(true);
   }
@@ -63,6 +60,10 @@ public class DriveSystem extends SubsystemBase {
   }
 
   public void drive(double d, double e) {
-    m_robotDrive.arcadeDrive(-d, e, false);
+    m_robotDrive.arcadeDrive(-d*0.5, e*0.5, false);
+  }
+
+  public void resetGyro(){
+    gyro.reset();
   }
 }

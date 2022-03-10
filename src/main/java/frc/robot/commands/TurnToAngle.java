@@ -36,6 +36,11 @@ public class TurnToAngle extends PIDCommand {
         .setTolerance(Constants.kTurnToleranceDeg, Constants.kTurnRateToleranceDegPerS);
   }
 
+
+  @Override
+  public void initialize(){
+    System.out.println("Turning");
+  }
   @Override
   public boolean isFinished() {
     // End when the controller is at the reference.

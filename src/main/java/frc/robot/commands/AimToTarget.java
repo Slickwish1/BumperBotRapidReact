@@ -42,6 +42,12 @@ public class AimToTarget extends CommandBase{
         addRequirements(subsystem);
     }
 
+    @Override
+    public void initialize(){
+        
+        System.out.println("Aiming To Target");
+    }
+
     // Called every time the scheduler runs while the command is scheduled.
      @Override
      public void execute() {
@@ -91,6 +97,9 @@ public class AimToTarget extends CommandBase{
          }
  
          // Use our forward/turn speeds to control the drivetrain
- 
+     }
+     @Override
+     public boolean isFinished(){
+         return m_finished;
      }
 }
