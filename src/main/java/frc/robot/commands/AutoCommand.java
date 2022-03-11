@@ -12,7 +12,7 @@ public class AutoCommand extends SequentialCommandGroup {
             new TurnToAngle(135, drive),
             new AimToBall(drive),
             new TurnToAngle(0,drive),
-            new AimToTarget(drive)
+            new AimToTarget(drive,1)
         );
     }
 }

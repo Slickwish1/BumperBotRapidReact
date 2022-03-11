@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimToBall;
+import frc.robot.commands.AimToBallManualDist;
 import frc.robot.commands.AimToTarget;
 import frc.robot.commands.AutoCommand;
 import frc.robot.commands.TurnToAngle;
@@ -69,7 +70,7 @@ public class RobotContainer {
 
 
     left_bumper.whileHeld(new AimToTarget(robotDrive));
-    right_bumper.whileHeld(new AimToBall(robotDrive,driveController));
+    right_bumper.whileHeld(new AimToBall(robotDrive));
     a_button.whenPressed(new AutoCommand(robotDrive));
   }
 

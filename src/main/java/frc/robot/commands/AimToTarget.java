@@ -5,6 +5,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSystem;
@@ -17,7 +18,7 @@ public class AimToTarget extends CommandBase{
     final double LINEAR_D = 0;
     PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
-    final double ANGULAR_P = 0.5;
+    final double ANGULAR_P = 0.7;
     final double ANGULAR_D = 0;
     PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
     double targetRange = Constants.Vision.kFarTgtXPos;
@@ -63,11 +64,11 @@ public class AimToTarget extends CommandBase{
  
                      PhotonUtils.calculateDistanceToTargetMeters(
  
-                             .5,
+                            Units.inchesToMeters(6.70),
  
                              Constants.Vision.targetHeight,
  
-                             0,
+                             Units.degreesToRadians(45),
  
                              Units.degreesToRadians(result.getBestTarget().getPitch()));
  
@@ -83,9 +84,9 @@ public class AimToTarget extends CommandBase{
  
              double turnSpeed = turnController.calculate(result.getBestTarget().getYaw(), 0);
              double errorTurn = Math.abs(result.getBestTarget().getYaw());
-            
-            if(errorForward > 30 || errorTurn > 5){
-                m_subsystem.drive(forwardSpeed/3.0, turnSpeed/20.0);
+            SmartDashboard.putNumber("ef", errorForward);
+            if(Math.abs(errorForward) > 0.15 || errorTurn > 5){
+                m_subsystem.drive(forwardSpeed*-15.0, turnSpeed/15.0);
             }
             else{
                 m_finished = true;
