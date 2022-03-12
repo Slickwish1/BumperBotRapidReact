@@ -37,15 +37,10 @@ public class RobotContainer {
 
   private GenericHID driveController =  new XboxController(0) ;
 
-  private SendableChooser teamColor = new SendableChooser<>();
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
     robotDrive.resetGyro();
-
-    teamColor.addOption("Red", false);
-    teamColor.addOption("Blue", true);
 
     robotDrive.setDefaultCommand( 
 
@@ -75,7 +70,7 @@ public class RobotContainer {
 
 
     left_bumper.whileHeld(new AimToTarget(robotDrive));
-    right_bumper.whileHeld(new AimToBall(robotDrive, (Boolean) teamColor.getSelected()));
+    right_bumper.whileHeld(new AimToBall(robotDrive));
     a_button.whenPressed(new AutoCommand(robotDrive));
   }
 

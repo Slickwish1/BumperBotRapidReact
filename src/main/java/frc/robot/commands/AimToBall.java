@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -45,14 +46,7 @@ public class AimToBall extends CommandBase {
     public AimToBall(DriveSystem subsystem) {
         m_subsystem = subsystem;
         m_finished = true;
-        isBlue = true;
-        // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
-    }
-    public AimToBall(DriveSystem subsystem, Boolean colorIsBlue ) {
-        m_subsystem = subsystem;
-        m_finished = true;
-        isBlue = colorIsBlue;
+        isBlue = DriverStation.getAlliance() == DriverStation.Alliance.Blue;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
