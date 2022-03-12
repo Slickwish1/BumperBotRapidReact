@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AimToBall;
 import frc.robot.commands.AimToBallManualDist;
@@ -36,14 +37,18 @@ public class RobotContainer {
 
   private GenericHID driveController =  new XboxController(0) ;
 
+  private SendableChooser teamColor = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureButtonBindings();
     robotDrive.resetGyro();
 
+    teamColor.addOption("Red", false);
+    teamColor.addOption("Blue", true);
+
     robotDrive.setDefaultCommand( 
-      
+
       (new RunCommand(
         () -> 
              robotDrive.drive(
@@ -70,7 +75,7 @@ public class RobotContainer {
 
 
     left_bumper.whileHeld(new AimToTarget(robotDrive));
-    right_bumper.whileHeld(new AimToBall(robotDrive));
+    right_bumper.whileHeld(new AimToBall(robotDrive, (Boolean) teamColor.getSelected()));
     a_button.whenPressed(new AutoCommand(robotDrive));
   }
 
