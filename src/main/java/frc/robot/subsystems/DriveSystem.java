@@ -7,7 +7,10 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -52,6 +55,26 @@ public class DriveSystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+    PhotonPipelineResult result = getCamera().getLatestResult();
+ 
+    if (result.hasTargets()) {
+
+        // First calculate range
+
+        double range =
+
+                PhotonUtils.calculateDistanceToTargetMeters(
+
+                       Units.inchesToMeters(6.70),
+
+                        Constants.Vision.targetHeight,
+
+                        Units.degreesToRadians(45),
+
+                        Units.degreesToRadians(result.getBestTarget().getPitch()));
+
+                        SmartDashboard.putNumber("driverRange", range);
+    }
   }
 
   @Override

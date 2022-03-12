@@ -14,7 +14,7 @@ public class AimToTarget extends CommandBase{
     private DriveSystem m_subsystem;
     private boolean m_finished = false;
     
-    final double LINEAR_P = 0.1;
+    final double LINEAR_P = 0.7;
     final double LINEAR_D = 0;
     PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
@@ -77,7 +77,7 @@ public class AimToTarget extends CommandBase{
              // -1.0 required to ensure positive PID controller effort _increases_ range
  
              double forwardSpeed = forwardController.calculate(range, targetRange);
-             double errorForward = Math.abs(range) - Math.abs(Constants.Vision.kFarTgtXPos);
+             double errorForward = Math.abs(range) - targetRange;
              // Also calculate angular power
  
              // -1.0 required to ensure positive PID controller effort _increases_ yaw
@@ -85,8 +85,11 @@ public class AimToTarget extends CommandBase{
              double turnSpeed = turnController.calculate(result.getBestTarget().getYaw(), 0);
              double errorTurn = Math.abs(result.getBestTarget().getYaw());
             SmartDashboard.putNumber("ef", errorForward);
+            SmartDashboard.putNumber("forwardSpeed",forwardSpeed);
+            SmartDashboard.putNumber("range", range);
+
             if(Math.abs(errorForward) > 0.15 || errorTurn > 5){
-                m_subsystem.drive(forwardSpeed*-15.0, turnSpeed/15.0);
+                m_subsystem.drive(forwardSpeed*-1.0, turnSpeed/15.0);
             }
             else{
                 m_finished = true;
