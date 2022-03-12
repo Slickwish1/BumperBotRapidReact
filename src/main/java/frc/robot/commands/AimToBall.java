@@ -46,7 +46,7 @@ public class AimToBall extends CommandBase {
     public AimToBall(DriveSystem subsystem) {
         m_subsystem = subsystem;
         m_finished = true;
-        isBlue = DriverStation.getAlliance() == DriverStation.Alliance.Blue;
+        
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
@@ -66,6 +66,7 @@ public class AimToBall extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        isBlue = DriverStation.getAlliance() == DriverStation.Alliance.Blue;
         m_finished = false;
         NetworkTableEntry xEntry = table.getEntry(isBlue ? "best_blue_x" : "best_red_x");
         NetworkTableEntry sizeEntry = table.getEntry(isBlue ? "best_blue_size" : "best_red_size");
