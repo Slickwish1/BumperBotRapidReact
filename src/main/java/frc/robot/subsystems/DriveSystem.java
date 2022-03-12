@@ -35,6 +35,8 @@ public class DriveSystem extends SubsystemBase {
 
   Gyro gyro = new AHRS(SerialPort.Port.kMXP); /* Alternatives:  SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
 
+  Double gyroBaseAngle = 0.0;
+
   //Vision
   private PhotonCamera cam = new PhotonCamera(Constants.Vision.kCamName);
   public PhotonCamera getCamera(){
@@ -45,6 +47,7 @@ public class DriveSystem extends SubsystemBase {
 
   public DriveSystem() {
     leftMotors.setInverted(true);
+    gyroBaseAngle = gyro.getAngle();
   }
 
   public double getHeading() {
@@ -89,5 +92,9 @@ public class DriveSystem extends SubsystemBase {
   public void resetGyro(){
     gyro.reset();
     gyro.calibrate();
+  }
+
+  public Double getStartingAngle(){
+    return gyroBaseAngle;
   }
 }

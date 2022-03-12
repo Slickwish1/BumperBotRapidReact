@@ -22,7 +22,7 @@ public class TurnToAngle extends PIDCommand {
 
         drive::getHeading,
 
-        targetAngleDegrees,
+        targetAngleDegrees + drive.getStartingAngle(),
 
         output -> drive.drive(0, -output),
 

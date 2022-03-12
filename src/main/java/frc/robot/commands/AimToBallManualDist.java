@@ -37,11 +37,8 @@ public class AimToBallManualDist extends CommandBase {
 
     GenericHID controller;
 
-    /**
-     * Creates a new ExampleCommand.
-     *
-     * @param subsystem The subsystem used by this command.
-     */
+    private Boolean isBlue;
+
     public AimToBallManualDist(DriveSystem subsystem, GenericHID driveController) {
         m_subsystem = subsystem;
         m_finished = true;
@@ -57,6 +54,25 @@ public class AimToBallManualDist extends CommandBase {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
+
+    public AimToBallManualDist(DriveSystem subsystem, GenericHID driveController, Boolean isTeamBlue) {
+        m_subsystem = subsystem;
+        m_finished = true;
+        controller = driveController;
+        isBlue = isTeamBlue;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
+    }
+
+    public AimToBallManualDist(DriveSystem subsystem, Boolean isTeamBlue) {
+        m_subsystem = subsystem;
+        m_finished = true;
+        controller = null;
+        isBlue = isTeamBlue;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
+    }
+
 
     @Override
     public void initialize() {
@@ -74,7 +90,7 @@ public class AimToBallManualDist extends CommandBase {
     @Override
     public void execute() {
         m_finished = false;
-        NetworkTableEntry xEntry = table.getEntry("best_blue_x");
+        NetworkTableEntry xEntry = table.getEntry(isBlue ? "best_blue_x": "best_red_x");
         System.out.println(xEntry);
         NetworkTableEntry widthEntry = table.getEntry("width");
         if ((Double) xEntry.getNumber(Double.valueOf(0.0)) > Double.valueOf(1.0)) {

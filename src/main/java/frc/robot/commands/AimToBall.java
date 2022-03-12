@@ -35,6 +35,8 @@ public class AimToBall extends CommandBase {
     PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
     private NetworkTable table;
 
+    private boolean isBlue;
+
     /**
      * Creates a new ExampleCommand.
      *
@@ -43,6 +45,14 @@ public class AimToBall extends CommandBase {
     public AimToBall(DriveSystem subsystem) {
         m_subsystem = subsystem;
         m_finished = true;
+        isBlue = true;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
+    }
+    public AimToBall(DriveSystem subsystem, Boolean colorIsBlue ) {
+        m_subsystem = subsystem;
+        m_finished = true;
+        isBlue = colorIsBlue;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
@@ -63,8 +73,8 @@ public class AimToBall extends CommandBase {
     @Override
     public void execute() {
         m_finished = false;
-        NetworkTableEntry xEntry = table.getEntry("best_blue_x");
-        NetworkTableEntry sizeEntry = table.getEntry("best_blue_size");
+        NetworkTableEntry xEntry = table.getEntry(isBlue ? "best_blue_x" : "best_red_x");
+        NetworkTableEntry sizeEntry = table.getEntry(isBlue ? "best_blue_size" : "best_red_size");
         System.out.println(xEntry);
         NetworkTableEntry widthEntry = table.getEntry("width");
         double turnSpeed = 0.0;
